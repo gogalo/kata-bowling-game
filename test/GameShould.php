@@ -27,4 +27,13 @@ class GameShould extends TestCase
         $this->assertTrue(method_exists($game,'roll'));
     }
 
+    /**
+     * @test
+     */
+    public function can_be_scored()
+    {
+        $game = new Game();
+        $this->assertTrue(method_exists($game,'score'));
+    }
+
 }
