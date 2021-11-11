@@ -18,4 +18,13 @@ class GameShould extends TestCase
         $this->assertInstanceOf('App\\Game', $game);
     }
 
+    /**
+     * @test
+     */
+    public function can_be_rolled()
+    {
+        $game = new Game();
+        $this->assertTrue(method_exists($game,'roll'));
+    }
+
 }
