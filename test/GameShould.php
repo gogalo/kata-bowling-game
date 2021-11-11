@@ -9,13 +9,20 @@ use PHPUnit\Framework\TestCase;
 
 class GameShould extends TestCase
 {
+    public $game;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->game = new Game();
+    }
+
     /**
      * @test
      */
     public function create_a_game()
     {
-        $game = new Game();
-        $this->assertInstanceOf('App\\Game', $game);
+        $this->assertInstanceOf('App\\Game', $this->game);
     }
 
     /**
@@ -23,8 +30,7 @@ class GameShould extends TestCase
      */
     public function can_be_rolled()
     {
-        $game = new Game();
-        $this->assertTrue(method_exists($game,'roll'));
+        $this->assertTrue(method_exists($this->game,'roll'));
     }
 
     /**
@@ -32,8 +38,7 @@ class GameShould extends TestCase
      */
     public function can_be_scored()
     {
-        $game = new Game();
-        $this->assertTrue(method_exists($game,'score'));
+        $this->assertTrue(method_exists($this->game,'score'));
     }
 
 }
