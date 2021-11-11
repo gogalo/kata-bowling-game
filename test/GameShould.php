@@ -41,7 +41,6 @@ class GameShould extends TestCase
         $this->assertTrue(method_exists($this->game,'score'));
     }
 
-
     /**
      * @test
      */
@@ -52,6 +51,35 @@ class GameShould extends TestCase
         }
 
         $this->assertTrue($this->game->score() ===  0);
+    }
+
+    /**
+     * @test
+     */
+    public function return_20_for_a_game_of_all_ones()
+    {
+        for ($i = 0; $i < 20; $i++) {
+            $this->game->roll(1);
+        }
+
+        $this->assertThat($this->game->score(), $this->equalTo(20));
+    }
+
+
+    /**
+     * @test
+     */
+    public function return_correct_score_when_frame_is_spare()
+    {
+        $this->game->roll(1);
+        $this->game->roll(9);
+        $this->game->roll(1);
+
+        for ($i = 0; $i < 18; $i++) {
+            $this->game->roll(0);
+        }
+
+        $this->assertThat($this->game->score(), $this->equalTo(12));
     }
 
 }
