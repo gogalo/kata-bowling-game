@@ -46,10 +46,7 @@ class GameShould extends TestCase
      */
     public function return_0_for_a_game_of_all_zeros()
     {
-        for ($i = 0; $i < 20; $i++) {
-            $this->game->roll(0);
-        }
-
+        $this->manyRolls(0, 20);
         $this->assertTrue($this->game->score() ===  0);
     }
 
@@ -58,10 +55,7 @@ class GameShould extends TestCase
      */
     public function return_20_for_a_game_of_all_ones()
     {
-        for ($i = 0; $i < 20; $i++) {
-            $this->game->roll(1);
-        }
-
+        $this->manyRolls(1, 20);
         $this->assertThat($this->game->score(), $this->equalTo(20));
     }
 
@@ -74,12 +68,15 @@ class GameShould extends TestCase
         $this->game->roll(1);
         $this->game->roll(9);
         $this->game->roll(1);
-
-        for ($i = 0; $i < 18; $i++) {
-            $this->game->roll(0);
-        }
-
+        $this->manyRolls(0, 18);
         $this->assertThat($this->game->score(), $this->equalTo(12));
+    }
+
+    private function manyRolls($pins, $rolls): void
+    {
+        for ($i = 0; $i < $rolls; $i++) {
+            $this->game->roll($pins);
+        }
     }
 
 }
