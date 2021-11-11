@@ -21,9 +21,9 @@ Write a class Game that has two methods:
 - Create a game
 - can be rolled
 - Can be scored
-- The player has two rolls to knock down 10 pins.
-- The score for the frame is the total number of pins knocked down.
-- The game consists of 10 frames.
-- Plus bonuses for spares.
-- Plus bonuses for strikes. 
-- In the tenth frame a player who rolls a spare or strike is allowed to roll the extra ball
+- x/x x/x x/x x/x x/x x/x x/x x/x x/x x/x = 0
+- 1/1 1/1 1/1 1/1 1/1 1/1 1/1 1/1 1/1 1/1 = 20
+- 5/5 1/x x/x x/x x/x x/x x/x x/x x/x x/x = 12
+- 10 1/1 x/x x/x x/x x/x x/x x/x x/x x/x = 14
+- 10 10 10 10 10 10 10 10 10 10 = 300
+
