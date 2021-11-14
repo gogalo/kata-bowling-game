@@ -72,6 +72,18 @@ class GameShould extends TestCase
         $this->assertThat($this->game->score(), $this->equalTo(12));
     }
 
+    /**
+     * @test
+     */
+    public function return_correct_score_when_frame_is_strike()
+    {
+        $this->game->roll(10);
+        $this->game->roll(1);
+        $this->game->roll(1);
+        $this->manyRolls(0, 18);
+        $this->assertThat($this->game->score(), $this->equalTo(14));
+    }
+
     private function manyRolls($pins, $rolls): void
     {
         for ($i = 0; $i < $rolls; $i++) {

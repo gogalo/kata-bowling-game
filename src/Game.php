@@ -29,7 +29,12 @@ class Game
 
         for ($frameIndex = 0; $frameIndex < self::NUMBER_OF_FRAMES; $frameIndex++) {
             $score += $this->getFrameScore($roleIndex);
-            $roleIndex += 2;
+
+            if ($this->rolls[$roleIndex] == 10) {
+                $roleIndex += 1;
+            } else {
+                $roleIndex += 2;
+            }
         }
 
         return $score;
@@ -37,6 +42,10 @@ class Game
 
     private function getFrameScore(int $roleIndex)
     {
+        if ($this->rolls[$roleIndex] == 10) {
+            return $this->rolls[$roleIndex] + $this->rolls[$roleIndex + 1] + $this->rolls[$roleIndex + 2];
+        }
+
         $frameScore = $this->rolls[$roleIndex] + $this->rolls[$roleIndex + 1];
 
         if ($this->isSpare($frameScore)) {
