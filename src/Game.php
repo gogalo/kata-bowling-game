@@ -11,10 +11,14 @@ class Game
     const TOTAL_PINS = 10;
 
     private array $rolls;
+    private int $score;
+    private int $rollIndex;
 
     public function __construct()
     {
         $this->rolls = [];
+        $this->score = 0;
+        $this->rollIndex = 0;
     }
 
     public function roll($pins)
@@ -24,39 +28,80 @@ class Game
 
     public function score()
     {
-        $score = 0;
-        $roleIndex = 0;
-
-        for ($frameIndex = 0; $frameIndex < self::NUMBER_OF_FRAMES; $frameIndex++) {
-            $score += $this->getFrameScore($roleIndex);
-
-            if ($this->rolls[$roleIndex] == 10) {
-                $roleIndex += 1;
-            } else {
-                $roleIndex += 2;
-            }
+        for ($frameIndex = 1; $frameIndex <= self::NUMBER_OF_FRAMES; $frameIndex++) {
+            $this->score += $this->calculateFrameScore();
+            $this->goToNextFrame();
         }
 
-        return $score;
+        return $this->score;
     }
 
-    private function getFrameScore(int $roleIndex)
+    private function calculateFrameScore()
     {
-        if ($this->rolls[$roleIndex] == 10) {
-            return $this->rolls[$roleIndex] + $this->rolls[$roleIndex + 1] + $this->rolls[$roleIndex + 2];
+        if ($this->isStrike()) {
+            return $this->strikeBonus();
         }
 
-        $frameScore = $this->rolls[$roleIndex] + $this->rolls[$roleIndex + 1];
-
-        if ($this->isSpare($frameScore)) {
-            $frameScore += $this->rolls[$roleIndex + 2];
+        if ($this->isSpare()) {
+            return $this->spareBonus();
         }
 
-        return $frameScore;
+        return $this->frameScore();
     }
 
-    private function isSpare($frameScore)
+    private function isStrike()
     {
-        return $frameScore == self::TOTAL_PINS;
+        return $this->getTheScoreOfTheFirstRollOfTheFrame() == self::TOTAL_PINS;
     }
+
+    private function strikeBonus()
+    {
+        return self::TOTAL_PINS + $this->getTheScoreOfTheNextFrame();
+    }
+
+    private function isSpare()
+    {
+        return $this->frameScore() == self::TOTAL_PINS;
+    }
+
+    private function spareBonus()
+    {
+        return self::TOTAL_PINS + $this->getTheScoreOfTheFirstRollOfNextFrame();
+    }
+
+    private function frameScore()
+    {
+        return $this->getTheScoreOfTheFirstRollOfTheFrame() + $this->getTheScoreOfTheSecondRollOfTheFrame();
+    }
+
+    private function getTheScoreOfTheFirstRollOfTheFrame()
+    {
+        return $this->rolls[$this->rollIndex];
+    }
+
+    private function getTheScoreOfTheSecondRollOfTheFrame()
+    {
+        return $this->rolls[$this->rollIndex + 1];
+    }
+
+    private function getTheScoreOfTheNextFrame()
+    {
+        return $this->rolls[$this->rollIndex + 1] + $this->rolls[$this->rollIndex + 2];
+    }
+
+    private function getTheScoreOfTheFirstRollOfNextFrame()
+    {
+        return $this->rolls[$this->rollIndex + 2];
+    }
+
+    private function goToNextFrame()
+    {
+        if ($this->isStrike()) {
+            $this->rollIndex++;
+            return;
+        }
+
+        $this->rollIndex += 2;
+    }
+
 }
